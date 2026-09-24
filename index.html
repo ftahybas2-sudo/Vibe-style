@@ -135,17 +135,10 @@
 </head>
 <body class="min-h-screen flex flex-col font-sans relative selection:bg-purple-500 selection:text-white">
 
-    <!-- نوار هدر -->
+    <!-- نوار هدر متقارن و تمیز -->
     <header class="w-full py-4 px-6 border-b border-gray-200 dark:border-white/5 bg-white/70 dark:bg-dark-900/80 backdrop-blur-md sticky top-0 z-40 transition-colors">
         <div class="container mx-auto flex justify-between items-center max-w-5xl">
-            <div class="flex items-center gap-2">
-                <button onclick="openApiModal()" class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-dark-800 border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:scale-105 active:scale-95 transition-all shadow-sm" title="تنظیمات هوش مصنوعی Google">
-                    <i class="fa-solid fa-gear text-sm"></i>
-                </button>
-                <button onclick="fillDemoData()" class="px-3 py-1.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-600 dark:text-purple-400 border border-purple-500/20 text-xs font-bold transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-flask"></i> تست با داده دمو
-                </button>
-            </div>
+            <div class="w-10"></div>
             
             <div class="flex items-center justify-center">
                 <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-gray-900 dark:text-white select-none" dir="ltr">
@@ -170,7 +163,7 @@
             <div>
                 <h3 class="font-bold text-gray-900 dark:text-gray-200 text-sm mb-0.5">حریم خصوصی صددرصد محفوظ است</h3>
                 <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-                    تحلیل به صورت امن در مرورگر شما انجام می‌شود و تصاویر در هیچ سرور واسطی ذخیره نمی‌گردند.
+                    تحلیل به صورت امن و آنی انجام می‌شود و تصاویر در هیچ سرور واسطی ذخیره نمی‌گردند.
                 </p>
             </div>
         </div>
@@ -292,7 +285,7 @@
 
                 <button id="analyzeBtn" onclick="analyzeImages()" class="w-full sm:w-auto px-8 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 font-black rounded-xl shadow-lg transition transform hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2.5">
                     <i class="fa-solid fa-wand-magic-sparkles text-purple-400 dark:text-purple-600"></i>
-                    <span>شروع ارزیابی سیستم</span>
+                    <span>شروع ارزیابی هوشمند</span>
                 </button>
             </div>
         </div>
@@ -703,44 +696,6 @@
         </div>
     </div>
 
-    <!-- مودال تنظیمات API -->
-    <div id="apiModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="w-full max-w-md bg-white dark:bg-dark-850 rounded-3xl p-6 border border-gray-200 dark:border-white/10 shadow-2xl">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-base font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                    <i class="fa-solid fa-wand-magic-sparkles text-purple-500"></i> تنظیم هوش مصنوعی Google AI Studio
-                </h3>
-                <button onclick="closeApiModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            <p class="text-xs text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
-                کلید API خود را از وب‌سایت <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-purple-500 underline font-bold">Google AI Studio</a> کپی کرده و اینجا وارد کنید. این کلید فقط در حافظه مرورگر شما ذخیره می‌گردد.
-            </p>
-            <div class="space-y-3 mb-5">
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">Google Gemini API Key:</label>
-                    <input type="password" id="userApiKeyInput" placeholder="AIzaSy..." class="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-white/10 rounded-xl text-xs text-gray-900 dark:text-white focus:outline-none focus:border-purple-500" dir="ltr">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">مدل انتخابی بینایی:</label>
-                    <select id="userModelInput" class="w-full px-3.5 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-white/10 rounded-xl text-xs text-gray-900 dark:text-white focus:outline-none" dir="ltr">
-                        <option value="gemini-2.5-flash">gemini-2.5-flash (سریع و توصیه شده)</option>
-                        <option value="gemini-2.5-pro">gemini-2.5-pro (دقت عمیق‌تر)</option>
-                    </select>
-                </div>
-            </div>
-            <div class="flex gap-2">
-                <button onclick="saveApiSettings()" class="flex-1 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl text-xs transition shadow-md">
-                    ذخیره تنظیمات
-                </button>
-                <button onclick="testApiConnection()" id="testApiBtn" class="px-4 py-2.5 bg-gray-100 dark:bg-dark-800 text-gray-800 dark:text-gray-200 font-bold rounded-xl text-xs border border-gray-200 dark:border-white/10 transition">
-                    تست اتصال
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- مودال وبکم -->
     <div id="webcamModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex-col items-center justify-center p-4">
         <div class="w-full max-w-sm bg-white dark:bg-dark-850 rounded-3xl p-4 border border-gray-200 dark:border-white/10 shadow-2xl">
@@ -761,7 +716,7 @@
     <!-- مودال پیام‌ها -->
     <div id="alertModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 transition-opacity duration-200">
         <div class="bg-white dark:bg-dark-850 border border-gray-200 dark:border-white/10 rounded-3xl p-6 max-w-xs w-full shadow-2xl text-center">
-            <div id="alertIcon" class="w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-500/20 text-rose-600 flex items-center justify-center mx-auto mb-3 text-xl">
+            <div class="w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-500/20 text-rose-600 flex items-center justify-center mx-auto mb-3 text-xl">
                 <i class="fa-solid fa-circle-exclamation"></i>
             </div>
             <h3 id="alertTitle" class="text-base font-bold text-gray-900 dark:text-white mb-1">توجه</h3>
@@ -776,64 +731,6 @@
         const activeTimers = {};
         let currentWebcamTarget = 1;
         let webcamStream = null;
-
-        function getSavedApiKey() {
-            return localStorage.getItem('vibe_gemini_key') || "";
-        }
-        function getSavedModel() {
-            return localStorage.getItem('vibe_gemini_model') || "gemini-2.5-flash";
-        }
-
-        function openApiModal() {
-            document.getElementById('userApiKeyInput').value = getSavedApiKey();
-            document.getElementById('userModelInput').value = getSavedModel();
-            document.getElementById('apiModal').classList.remove('hidden');
-        }
-
-        function closeApiModal() {
-            document.getElementById('apiModal').classList.add('hidden');
-        }
-
-        function saveApiSettings() {
-            const key = document.getElementById('userApiKeyInput').value.trim();
-            const model = document.getElementById('userModelInput').value;
-            localStorage.setItem('vibe_gemini_key', key);
-            localStorage.setItem('vibe_gemini_model', model);
-            closeApiModal();
-            showAlert('تنظیمات ذخیره شد', 'کلید هوش مصنوعی با موفقیت در مرورگر ذخیره گردید.', 'success');
-        }
-
-        async function testApiConnection() {
-            const key = document.getElementById('userApiKeyInput').value.trim();
-            const model = document.getElementById('userModelInput').value;
-            if (!key) {
-                showAlert('کلید خالی است', 'لطفاً ابتدا کلید API را وارد کنید.');
-                return;
-            }
-            const btn = document.getElementById('testApiBtn');
-            const orig = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> بررسی...';
-            btn.disabled = true;
-
-            try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: 'سلام، تست سلامت اتصال' }] }] })
-                });
-                if (res.ok) {
-                    showAlert('اتصال برقرار شد! 🎉', 'هوش مصنوعی گوگل پاسخ داد و آماده تحلیل تصاویر است.', 'success');
-                } else {
-                    const err = await res.json();
-                    showAlert('خطا در اتصال', err.error?.message || 'پاسخی از گوگل دریافت نشد. فیلترشکن را بررسی کنید.');
-                }
-            } catch (e) {
-                showAlert('عدم دسترسی به گوگل', 'خطای شبکه رخ داد. لطفاً مطمئن شوید فیلترشکن فعال است.');
-            } finally {
-                btn.innerHTML = orig;
-                btn.disabled = false;
-            }
-        }
 
         function toggleTheme() {
             const html = document.documentElement;
@@ -853,18 +750,10 @@
             document.documentElement.classList.remove('dark');
         }
 
-        function showAlert(title, message, type = 'error') {
+        function showAlert(title, message) {
             const modal = document.getElementById('alertModal');
             document.getElementById('alertTitle').textContent = title;
             document.getElementById('alertMessage').textContent = message;
-            const icon = document.getElementById('alertIcon');
-            if (type === 'success') {
-                icon.className = 'w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 flex items-center justify-center mx-auto mb-3 text-xl';
-                icon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
-            } else {
-                icon.className = 'w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-500/20 text-rose-600 flex items-center justify-center mx-auto mb-3 text-xl';
-                icon.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i>';
-            }
             modal.classList.remove('hidden');
             void modal.offsetWidth;
             modal.classList.remove('opacity-0');
@@ -874,14 +763,6 @@
             const modal = document.getElementById('alertModal');
             modal.classList.add('opacity-0');
             setTimeout(() => modal.classList.add('hidden'), 200);
-        }
-
-        function fillDemoData() {
-            const demoSvg1 = "data:image/svg+xml;charset=utf-8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300"><rect width="300" height="300" fill="#6366f1"/><circle cx="150" cy="110" r="55" fill="#fde047"/><circle cx="130" cy="100" r="8" fill="#1e1b4b"/><circle cx="170" cy="100" r="8" fill="#1e1b4b"/><path d="M125 135 Q150 160 175 135" stroke="#1e1b4b" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M70 270 Q150 180 230 270" fill="#312e81"/></svg>');
-            const demoSvg2 = "data:image/svg+xml;charset=utf-8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300"><rect width="300" height="300" fill="#ec4899"/><circle cx="150" cy="115" r="55" fill="#fed7aa"/><circle cx="130" cy="105" r="7" fill="#831843"/><circle cx="170" cy="105" r="7" fill="#831843"/><path d="M125 140 Q150 165 175 140" stroke="#831843" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M75 270 Q150 190 225 270" fill="#9d174d"/></svg>');
-            processImageBase64(demoSvg1, 1);
-            processImageBase64(demoSvg2, 2);
-            showAlert('داده تستی فعال شد', 'تصاویر نمونه لود شدند. حالا دکمه "شروع ارزیابی سیستم" را لمس کنید.', 'success');
         }
 
         function handleImageUpload(event, target) {
@@ -1176,11 +1057,8 @@
         }
 
         async function fetchRealVisualAnalysis(imgs, tone) {
-            const apiKey = getSavedApiKey();
-            if (!apiKey) return null;
-
-            const model = getSavedModel();
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+            // اتصال مستقیم به ورکر سرورلس کلودفلر
+            const apiUrl = "https://vibe-style.ftahybas2.workers.dev";
 
             const promptText = `شما یک هوش بینایی بسیار تیزبین، باهوش و طناز ایرانی هستید.
 وظیفه شما ارزیابی دقیق تصویر اول و دوم است.
@@ -1201,7 +1079,7 @@
 
 لحن انتخاب شده: ${tone} (اگر roast باشد طنز فوق‌العاده ناب و گزنده ایرانی، اگر compliment شاعرانه و باکلاس، اگر khastegary طنز اصیل ایرانی).
 
-پاسخ را دقیقاً در قالب JSON معتبر طبق فیلدهای درخواستی تولید کنید.`;
+پاسخ را دقیقاً در قالب JSON معتبر طبق ساختار تعیین‌شده تولید کنید.`;
 
             const parts = [
                 { text: promptText },
@@ -1228,7 +1106,7 @@
                     if (rawText) return JSON.parse(rawText);
                 }
             } catch (e) {
-                console.error("API error, fallbacking to local engine:", e);
+                console.error("Worker error, fallbacking to local engine:", e);
             }
             return null;
         }
@@ -1356,7 +1234,7 @@
 
         async function analyzeImages() {
             if (!images[1] || !images[2]) {
-                showAlert('تصاویر ناقص', 'لطفاً برای هر دو بخش حداقل یک عکس انتخاب کنید (یا از دکمه تست دمو استفاده کنید).');
+                showAlert('تصاویر ناقص', 'لطفاً برای هر دو بخش حداقل یک عکس شفاف انتخاب کنید.');
                 return;
             }
 
@@ -1429,7 +1307,7 @@
             } finally {
                 clearInterval(textInterval);
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles text-purple-400 dark:text-purple-600"></i> <span>شروع ارزیابی سیستم</span>';
+                btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles text-purple-400 dark:text-purple-600"></i> <span>شروع ارزیابی هوشمند</span>';
             }
         }
 
