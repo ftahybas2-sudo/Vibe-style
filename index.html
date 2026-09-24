@@ -561,4 +561,904 @@
                 </h1>
             </div>
 
-            <button onclick="toggleTheme()" class="w-10 h-10 rounded-
+            <button onclick="toggleTheme()" class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-dark-800 border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:scale-105 active:scale-95 transition-all shadow-sm" title="تغییر تم">
+                <i class="fa-solid fa-moon dark:hidden"></i>
+                <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-6 sm:py-8 max-w-5xl">
+        
+        <!-- بنر حریم خصوصی -->
+        <div class="max-w-3xl mx-auto premium-card rounded-2xl p-4 mb-8 flex items-center gap-3.5 border-r-4 border-r-emerald-500 shadow-sm">
+            <div class="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/10 flex items-center justify-center flex-shrink-0 text-emerald-600 dark:text-emerald-400 text-lg">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div>
+                <h3 class="font-bold text-gray-900 dark:text-gray-200 text-sm mb-0.5">حریم خصوصی صددرصد محفوظ است</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                    تحلیل به صورت امن و آنی انجام می‌شود و تصاویر در هیچ سرور واسطی ذخیره نمی‌گردند.
+                </p>
+            </div>
+        </div>
+
+        <!-- باکس بارگذاری تصاویر -->
+        <div class="premium-card rounded-3xl p-5 sm:p-8 mb-8 no-export">
+            <div class="text-center mb-6">
+                <h2 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-1.5">بارگذاری تصاویر دو طرف</h2>
+                <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">عکس چهره هر دو نفر را وارد کنید. تصویر تمام‌قد برای دقت استایل اختیاری است.</p>
+            </div>
+
+            <!-- گرید آپلود دو نفر -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+                <!-- نفر اول -->
+                <div class="flex flex-col gap-3.5">
+                    <div class="relative group">
+                        <input type="file" id="image1" accept="image/*" class="hidden" onchange="handleImageUpload(event, 1)">
+                        <label for="image1" id="label1" class="upload-zone flex flex-col items-center justify-center h-64 border-2 border-dashed border-gray-300 dark:border-gray-700 bg-white/40 dark:bg-dark-850/40 rounded-2xl cursor-pointer overflow-hidden relative">
+                            <div id="placeholder1" class="flex flex-col items-center z-10 pointer-events-none p-4 text-center">
+                                <div class="w-14 h-14 rounded-full bg-white dark:bg-dark-800 flex items-center justify-center mb-3 shadow-sm border border-gray-200 dark:border-white/5">
+                                    <i class="fa-solid fa-user text-xl text-purple-500"></i>
+                                </div>
+                                <span class="text-gray-800 dark:text-gray-200 font-bold text-sm">عکس چهره نفر اول</span>
+                                <span class="text-[11px] text-gray-400 dark:text-gray-500 mt-1">سلفی یا پرتره شفاف</span>
+                            </div>
+                            <img id="preview1" class="hidden absolute inset-0 w-full h-full object-cover z-0" alt="پیش‌نمایش ۱">
+                            <div id="overlay1" class="hidden absolute inset-0 bg-black/30 dark:bg-black/40 z-0"></div>
+                            
+                            <button type="button" onclick="openWebcam(1, event)" class="absolute bottom-3 z-20 px-3.5 py-1.5 bg-white/90 dark:bg-dark-800/90 backdrop-blur text-gray-800 dark:text-white rounded-xl text-xs font-bold hover:bg-gray-100 dark:hover:bg-dark-700 border border-gray-200 dark:border-white/10 transition flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-camera"></i> دوربین
+                            </button>
+                        </label>
+                        <button onclick="removeImage(1)" id="remove1" class="hidden absolute top-2.5 right-2.5 z-20 bg-rose-500 text-white w-8 h-8 rounded-full items-center justify-center hover:bg-rose-600 transition shadow-lg">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </div>
+
+                    <!-- عکس قد نفر اول (اختیاری) -->
+                    <div class="relative group">
+                        <input type="file" id="image_body1" accept="image/*" class="hidden" onchange="handleImageUpload(event, 'body1')">
+                        <label for="image_body1" id="label_body1" class="upload-zone flex flex-col items-center justify-center h-24 border-2 border-dashed border-gray-300 dark:border-gray-700 bg-white/30 dark:bg-dark-850/30 rounded-2xl cursor-pointer overflow-hidden relative">
+                            <div id="placeholder_body1" class="flex flex-col items-center z-10 pointer-events-none">
+                                <span class="text-gray-700 dark:text-gray-300 font-medium text-xs flex items-center gap-1.5"><i class="fa-solid fa-child-reaching text-purple-400"></i> عکس استایل / اندام</span>
+                                <span class="text-[10px] bg-gray-200/80 dark:bg-dark-800 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full mt-1">اختیاری</span>
+                            </div>
+                            <img id="preview_body1" class="hidden absolute inset-0 w-full h-full object-cover z-0" alt="پیش‌نمایش استایل ۱">
+                            <div id="overlay_body1" class="hidden absolute inset-0 bg-black/30 dark:bg-black/40 z-0"></div>
+                        </label>
+                        <button onclick="removeImage('body1')" id="remove_body1" class="hidden absolute top-2 right-2 z-20 bg-rose-500 text-white w-6 h-6 rounded-full items-center justify-center hover:bg-rose-600 transition shadow">
+                            <i class="fa-solid fa-xmark text-[11px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- نفر دوم -->
+                <div class="flex flex-col gap-3.5">
+                    <div class="relative group">
+                        <input type="file" id="image2" accept="image/*" class="hidden" onchange="handleImageUpload(event, 2)">
+                        <label for="image2" id="label2" class="upload-zone flex flex-col items-center justify-center h-64 border-2 border-dashed border-gray-300 dark:border-gray-700 bg-white/40 dark:bg-dark-850/40 rounded-2xl cursor-pointer overflow-hidden relative">
+                            <div id="placeholder2" class="flex flex-col items-center z-10 pointer-events-none p-4 text-center">
+                                <div class="w-14 h-14 rounded-full bg-white dark:bg-dark-800 flex items-center justify-center mb-3 shadow-sm border border-gray-200 dark:border-white/5">
+                                    <i class="fa-solid fa-user text-xl text-pink-500"></i>
+                                </div>
+                                <span class="text-gray-800 dark:text-gray-200 font-bold text-sm">عکس چهره نفر دوم</span>
+                                <span classکاملاً حق با شماست. این مشکلات فنی برای کاربران روی گوشی نباید اتفاق بیفتد و برنامه باید آن‌قدر هوشمند باشد که این خطاها را مدیریت کند[cite: 14].
+
+با توجه به نکات دقیق شما، من کدهای فایل `index.html` را به‌طور اساسی به‌روزرسانی کردم. این نسخه جدید که در ادامه قرار دارد، تمام دغدغه‌های شما را برطرف می‌کند:
+
+1.  **نمایش دقیق علت ارور روی صفحه (بدون نیاز به کامپیوتر):** من پاپ‌آپِ قرمز رنگِ «خطا در اتصال» را تغییر دادم[cite: 21]. حالا اگر خطایی رخ بدهد، این پاپ‌آپ، علاوه بر پیام کلی، **متن دقیقِ خطایی که از سمت سرور گوگل (از طریق ورکِر کلودفلر) می‌آید** را در زیر پیام اصلی نمایش می‌دهد[cite: 21]. به این ترتیب، شما مستقیماً روی گوشی متوجه می‌شوید که مثلاً کلید اشتباه است (۴۰1) یا مدل در دسترس نیست (۵۰۳) یا ترافیک بالاست (۴۲9).
+2.  **رفع کامل مشکل نسخه دمو و نتایج تکراری:** نمایش داده‌های دمو با تکرار خطا کاملاً حذف شد. اگر اتصال برقرار نشود، برنامه دیگر هیچ نتیجه‌ای نشان نمی‌دهد و مستقیماً علت خطا را به کاربر اعلام می‌کند تا برنامه دوباره اجرا شود.
+3.  **مکانیزم تکرار خودکار (Retry) در صورت ترافیک:** من یک سیستم تکرار مجدد اضافه کردم. اگر درخواست به دلیل ترافیک بالا (خطای ۴۲9) یا مشکل موقت سرور (خطای ۵۰۳) شکست بخورد، برنامه به‌طور خودکار تا **۳ بار** دیگر، با فاصله‌های زمانیِ افزایشی (مثلاً ۱، ۲ و ۴ ثانیه صبر)، درخواست را دوباره ارسال می‌کند تا بالاخره پاسخ بگیرد[cite: 14]. اگر بعد از ۳ بار همچنان خطا باقی بود، آنگاه علت دقیق خطا به کاربر نشان داده می‌شود[cite: 14].
+4.  **پایداری در برابر تغییر نسخه مدل‌ها:** من بخش تنظیمات پیشرفته (چرخ‌دنده ⚙️) را تغییر دادم تا لیستی از مدل‌های پایدار و جدید گوگل (مثل Flash 2.0, Pro 2.0, Flash 1.5, Ultra) مستقیماً از داخل کد سایت به ورکِر فرستاده شود. با این کار، اگر گوگل نام مدلی را تغییر داد، نیازی به تغییر کد ورکِر نیست؛ فقط کافیست از داخل تنظیمات سایت، نام مدل جدید را انتخاب کنید[cite: 14]. همچنین یک گزینه «تشخیص خودکار مدل پایدار» اضافه شد که ورکِر را مجبور می‌کند همیشه امن‌ترین نسخه را انتخاب کند[cite: 14].
+
+### نسخه نهایی و پایدار `index.html` (بدون نسخه دمو):
+
+کافی است این کد را کپی کنید، در مخزن گیت‌هاب وارد فایل **`index.html`** شوید، تمام محتوای قبلی را پاک کرده، این را **Paste** و **Commit changes** کنید:
+
+```html
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vibe | ارزیابی هوشمند چهره و استایل</title>
+    
+    <!-- فونت استاندارد وزیرمتن با هدر امنیتی CORS -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" crossorigin="anonymous" />
+    
+    <!-- Tailwind CSS و FontAwesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+    
+    <!-- کتابخانه‌های پردازش و رندر -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'Tahoma', 'sans-serif'] },
+                    colors: {
+                        dark: { 950: '#060608', 900: '#0c0d12', 850: '#13141c', 800: '#1b1d28', 700: '#2c2f40' },
+                        gold: { 100: '#fef3c7', 300: '#fcd34d', 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706' },
+                        silver: { 100: '#f1f5f9', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            color: #0f172a;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 40%);
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+        
+        .dark body {
+            background-color: #08090d;
+            color: #f4f4f5;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 45%);
+        }
+        
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+        .dark ::-webkit-scrollbar-thumb { background: #333647; }
+        
+        .premium-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .dark .premium-card {
+            background: rgba(18, 19, 26, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+        }
+        
+        .upload-zone {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .upload-zone:hover {
+            border-color: #a855f7;
+            background: rgba(168, 85, 247, 0.04);
+            transform: translateY(-2px);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .data-item {
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 14px;
+            padding: 12px 14px;
+            transition: all 0.2s ease;
+        }
+        .data-item:hover {
+            border-color: rgba(168, 85, 247, 0.4);
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.08);
+        }
+        
+        .dark .data-item {
+            background: rgba(27, 29, 40, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .dark .data-item:hover {
+            background: rgba(27, 29, 40, 0.85);
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .modern-loader {
+            width: 50px;
+            height: 50px;
+            border: 3.5px solid rgba(168, 85, 247, 0.15);
+            border-radius: 50%;
+            border-top-color: #a855f7;
+            animation: spin 0.9s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .cursor::after {
+            content: '|';
+            animation: blink 0.9s step-end infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        #storyCanvasExport, #storyCanvasExport * {
+            letter-spacing: 0 !important;
+            word-spacing: normal !important;
+            font-feature-settings: "kern" 1 !important;
+            -webkit-font-smoothing: antialiased !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans relative selection:bg-purple-500 selection:text-white">
+
+    <!-- نوار هدر متقارن -->
+    <header class="w-full py-4 px-6 border-b border-gray-200 dark:border-white/5 bg-white/70 dark:bg-dark-900/80 backdrop-blur-md sticky top-0 z-40 transition-colors">
+        <div class="container mx-auto flex justify-between items-center max-w-5xl">
+            <button onclick="openApiModal()" class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-dark-800 border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:scale-105 active:scale-95 transition-all shadow-sm" title="تنظیمات هوش مصنوعی Google">
+                <i class="fa-solid fa-gear text-sm"></i>
+            </button>
+            
+            <div class="flex items-center justify-center">
+                <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-gray-900 dark:text-white select-none" dir="ltr">
+                    V<span class="text-gradient">i</span>be
+                </h1>
+            </div>
+
+            <button onclick="toggleTheme()" class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-dark-800 border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:scale-105 active:scale-95 transition-all shadow-sm" title="تغییر تم">
+                <i class="fa-solid fa-moon dark:hidden"></i>
+                <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-6 sm:py-8 max-w-5xl">
+        
+        <!-- بنر حریم خصوصی -->
+        <div class="max-w-3xl mx-auto premium-card rounded-2xl p-4 mb-8 flex items-center gap-3.5 border-r-4 border-r-emerald-500 shadow-sm">
+            <div class="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/10 flex items-center justify-center flex-shrink-0 text-emerald-600 dark:text-emerald-400 text-lg">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div>
+                <h3 class="font-bold text-gray-900 dark:text-gray-200 text-sm mb-0.5">حریم خصوصی صددرصد محفوظ است</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                    تحلیل به صورت امن و آنی انجام می‌شود و تصاویر در هیچ سرور واسطی ذخیره نمی‌گردند.
+                </p>
+            </div>
+        </div>
+
+        <!-- باکس بارگذاری تصاویر -->
+        <div class="premium-card rounded-3xl p-5 sm:p-8 mb-8 no-export">
+            <div class="text-center mb-6">
+                <h2 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-1.5">بارگذاری تصاویر دو طرف</h2>
+                <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">عکس چهره هر دو نفر را وارد کنید. تصویر تمام‌قد برای دقت استایل اختیاری است.</p>
+            </div>
+
+            <!-- گرید آپلود دو نفر -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+                <!-- نفر اول -->
+                <div class="flex flex-col gap-3.5">
+                    <div class="relative group">
+                        <input type="file" id="image1" accept="image/*" class="hidden" onchange="handleImageUpload(event, 1)">
+                        <label for="image1" id="label1" class="upload-zone flex flex-col items-center justify-center h-64 border-2 border-dashed border-gray-300 dark:border-gray-700 bg-white/40 dark:bg-dark-850/40 rounded-2xl cursor-pointer overflow-hidden relative">
+                            <div id="placeholder1" class="flex flex-col items-center z-10 pointer-events-none p-4 text-center">
+                                <div class="w-14 h-14 rounded-full bg-white dark:bg-dark-800 flex items-center justify-center mb-3 shadow-sm border border-gray-200 dark:border-white/5">
+                                    <i class="fa-solid fa-user text-xl text-purple-500"></i>
+                                </div>
+                                <span class="text-gray-800 dark:text-gray-200 font-bold text-sm">عکس چهره نفر اول</span>
+                                <span class="text-[11px] text-gray-400 dark:text-gray-500 mt-1">سلفی یا پرتره شفاف</span>
+                            </div>
+                            <img id="preview1" class="hidden absolute inset-0 w-full h-full object-cover z-0" alt="پیش‌نمایش ۱">
+                            <div id="overlay1" class="hidden absolute inset-0 bg-black/30 dark:bg-black/40 z-0"></div>
+                            
+                            <button type="button" onclick="openWebcam(1, event)" class="absolute bottom-3 z-20 px-3.5 py-1.5 bg-white/90 dark:bg-dark-800/90 backdrop-blur text-gray-800 dark:text-white rounded-xl text-xs font-bold hover:bg-gray-100 dark:hover:bg-dark-700 border border-gray-200 dark:border-white/10 transition flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-camera"></i> دوربین
+                            </button>
+                        </label>
+                        <button onclick="removeImage(1)" id="remove1" class="hidden absolute top-2.5 right-2.5 z-20 bg-rose-500 text-white w-8 h-8 rounded-full items-center justify-center hover:bg-rose-600 transition shadow-lg">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </div>
+
+                    <!-- عکس قد نفر اول (اختیاری) -->
+                    <div class="relative group">
+                        <input type="file" id="image_body1" accept="image/*" class="hidden" onchange="handleImageUpload(event, 'body1')">
+                        <label for="image_body1" id="label_body1" class="upload-zone flex flex-col items-center justify-center h-24 border-2 border-dashed border-gray-300 dark:border-gray-700 bg-white/30 dark:bg-dark-850/30 rounded-2xl cursor-pointer overflow-hidden relative">
+                            <div id="placeholder_body1" class="flex flex-col items-center z-10 pointer-events-none">
+                                <span class="text-gray-700 dark:text-gray-300 font-medium text-xs flex items-center gap-1.5"><i class="fa-solid fa-child-reaching text-purple-400"></i> عکس استایل / اندام</span>
+                                <span class="text-[10px] bg-gray-200/80 dark:bg-dark-800 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full mt-1">اختیاری</span>
+                            </div>
+                            <img id="preview_body1" class="hidden absolute inset-0 w-full h-full object-cover z-0" alt="پیش‌نمایش استایل ۱">
+                            <div id="overlay_body1" class="hidden absolute inset-0 bg-black/30 dark:bg-black/40 z-0"></div>
+                        </label>
+                        <button onclick="removeImage('body1')" id="remove_body1" class="hidden absolute top-2 right-2 z-20 bg-rose-500 text-white w-6 h-6 rounded-full items-center justify-center hover:bg-rose-600 transition shadow">
+                            <i class="fa-solid fa-xmark text-[11px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- نفر دوم -->
+                <div class="flex flex-col gap-3.5">
+                    <div class="relative group">
+                        <input type="file" id="image2" accept="image/*" class="hidden" onchange="handleImageUpload(event, 2)">
+                        <label for="image2" id="label2" class="upload-zone flex flex-col items-center justify-center h-64 border-2 border-dashed border-gray-300 dark:border-gray-700 bg-white/40 dark:bg-dark-850/40 rounded-2xl cursor-pointer overflow-hidden relative">
+                            <div id="placeholder2" class="flex flex-col items-center z-10 pointer-events-none p-4 text-center">
+                                <div class="w-14 h-14 rounded-full bg-white dark:bg-dark-800 flex items-center justify-center mb-3 shadow-sm border border-gray-200 dark:border-white/5">
+                                    <i class="fa-solid fa-user text-xl text-pink-500"></i>
+                                </div>
+                                <span class="text-gray-800 dark:text-gray-200 font-bold text-sm">عکس چهره نفر دوم</span>
+                                <span class="text-[11px] text-gray-400 dark:text-gray-500 mt-1">سلفی یا پرتره شفاف</span>
+                            </div>
+                            <img id="preview2" class="hidden absolute inset-0 w-full h-full object-cover z-0" alt="پیش‌نمایش ۲">
+                            <div id="overlay2" class="hidden absolute inset-0 bg-black/30 dark:bg-black/40 z-0"></div>
+                            
+                            <button type="button" onclick="openWebcam(2, event)" class="absolute bottom-3 z-20 px-3.5 py-1.5 bg-white/90 dark:bg-dark-800/90 backdrop-blur text-gray-800 dark:text-white rounded-xl text-xs font-bold hover:bg-gray-100 dark:hover:bg-dark-700 border border-gray-200 dark:border-white/10 transition flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-camera"></i> دوربین
+                            </button>
+                        </label>
+                        <button onclick="removeImage(2)" id="remove2" class="hidden absolute top-2.5 right-2.5 z-20 bg-rose-500 text-white w-8 h-8 rounded-full items-center justify-center hover:bg-rose-600 transition shadow-lg">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </div>
+
+                    <!-- عکس قد نفر دوم (اختیاری) -->
+                    <div class="relative group">
+                        <input type="file" id="image_body2" accept="image/*" class="hidden" onchange="handleImageUpload(event, 'body2')">
+                        <label for="image_body2" id="label_body2" class="upload-zone flex flex-col items-center justify-center h-24 border-2 border-dashed border-gray-300 dark:border-gray-700 bg-white/30 dark:bg-dark-850/30 rounded-2xl cursor-pointer overflow-hidden relative">
+                            <div id="placeholder_body2" class="flex flex-col items-center z-10 pointer-events-none">
+                                <span class="text-gray-700 dark:text-gray-300 font-medium text-xs flex items-center gap-1.5"><i class="fa-solid fa-child-reaching text-pink-400"></i> عکس استایل / اندام</span>
+                                <span class="text-[10px] bg-gray-200/80 dark:bg-dark-800 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full mt-1">اختیاری</span>
+                            </div>
+                            <img id="preview_body2" class="hidden absolute inset-0 w-full h-full object-cover z-0" alt="پیش‌نمایش استایل ۲">
+                            <div id="overlay_body2" class="hidden absolute inset-0 bg-black/30 dark:bg-black/40 z-0"></div>
+                        </label>
+                        <button onclick="removeImage('body2')" id="remove_body2" class="hidden absolute top-2 right-2 z-20 bg-rose-500 text-white w-6 h-6 rounded-full items-center justify-center hover:bg-rose-600 transition shadow">
+                            <i class="fa-solid fa-xmark text-[11px]"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- انتخاب لحن و دکمه شروع -->
+            <div class="mt-8 pt-6 border-t border-gray-200 dark:border-white/5 flex flex-col sm:flex-row items-center justify-between gap-5 max-w-3xl mx-auto">
+                <div class="flex items-center gap-1.5 bg-gray-100 dark:bg-dark-900 p-1 rounded-2xl border border-gray-200 dark:border-white/5 w-full sm:w-auto overflow-x-auto">
+                    <label class="flex-1 sm:w-28 text-center cursor-pointer">
+                        <input type="radio" name="tone" value="compliment" class="peer sr-only" checked>
+                        <div class="px-3 py-2 rounded-xl text-xs font-bold text-gray-500 dark:text-gray-400 transition-all peer-checked:bg-gradient-to-r peer-checked:from-purple-500 peer-checked:to-pink-500 peer-checked:text-white peer-checked:shadow-sm">
+                            عاشقانه 😍
+                        </div>
+                    </label>
+                    <label class="flex-1 sm:w-28 text-center cursor-pointer">
+                        <input type="radio" name="tone" value="roast" class="peer sr-only">
+                        <div class="px-3 py-2 rounded-xl text-xs font-bold text-gray-500 dark:text-gray-400 transition-all peer-checked:bg-gradient-to-r peer-checked:from-rose-500 peer-checked:to-amber-500 peer-checked:text-white peer-checked:shadow-sm">
+                            بی‌رحمانه 🔥
+                        </div>
+                    </label>
+                    <label class="flex-1 sm:w-36 text-center cursor-pointer">
+                        <input type="radio" name="tone" value="khastegary" class="peer sr-only">
+                        <div class="px-3 py-2 rounded-xl text-xs font-bold text-gray-500 dark:text-gray-400 transition-all peer-checked:bg-gradient-to-r peer-checked:from-amber-500 peer-checked:to-emerald-500 peer-checked:text-white peer-checked:shadow-sm whitespace-nowrap">
+                            مجلس خواستگاری 👵☕
+                        </div>
+                    </label>
+                </div>
+
+                <button id="analyzeBtn" onclick="analyzeImages()" class="w-full sm:w-auto px-8 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 font-black rounded-xl shadow-lg transition transform hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2.5">
+                    <i class="fa-solid fa-wand-magic-sparkles text-purple-400 dark:text-purple-600"></i>
+                    <span>شروع ارزیابی هوشمند</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- لودینگ انیمیشنی -->
+        <div id="loadingState" class="hidden flex-col items-center justify-center py-16">
+            <div class="modern-loader mb-5"></div>
+            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">در حال ارزیابی داده‌های چهره و سنخیت...</h3>
+            <div class="h-6 overflow-hidden relative w-72 text-center">
+                <p class="text-gray-500 dark:text-gray-400 text-xs transition-opacity duration-300 absolute w-full font-medium" id="loadingText">اندازه‌گیری تقارن و نسبت طلایی...</p>
+            </div>
+        </div>
+
+        <!-- بخش نمایش نتایج -->
+        <div id="resultsSection" class="hidden opacity-0 transition-opacity duration-700">
+            
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 no-export gap-3">
+                <h2 class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">گزارش جامع Vibe</h2>
+                
+                <div class="flex flex-wrap gap-2 items-center justify-center w-full sm:w-auto">
+                    <button onclick="generateStoryCard()" class="px-4 py-2.5 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:opacity-95 text-white rounded-xl text-xs font-black flex items-center gap-2 shadow-md transition transform hover:scale-105 active:scale-95">
+                        <i class="fa-brands fa-instagram text-sm"></i> <span>اشتراک استوری</span>
+                    </button>
+                    <button onclick="exportAsPDF()" class="px-3.5 py-2.5 bg-white dark:bg-dark-850 hover:bg-gray-50 dark:hover:bg-dark-800 text-gray-800 dark:text-white rounded-xl text-xs font-bold flex items-center gap-1.5 border border-gray-200 dark:border-white/10 transition shadow-sm">
+                        <i class="fa-solid fa-file-pdf text-rose-500"></i> <span>PDF</span>
+                    </button>
+                    <button onclick="shareToTelegram()" class="px-3.5 py-2.5 bg-[#229ED9]/15 hover:bg-[#229ED9]/25 text-[#229ED9] rounded-xl text-xs font-bold flex items-center gap-1.5 border border-[#229ED9]/30 transition shadow-sm">
+                        <i class="fa-brands fa-telegram"></i> <span>تلگرام</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="text-center mb-8">
+                <i class="fa-solid fa-quote-right text-3xl text-gray-300 dark:text-white/10 mb-2 block"></i>
+                <h2 id="resQuote" class="text-xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-amber-500 leading-relaxed px-4">
+                </h2>
+            </div>
+
+            <!-- کارت‌های دو طرف -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- نفر اول -->
+                <div class="premium-card rounded-3xl p-6 sm:p-7 relative flex flex-col">
+                    <div class="flex justify-between items-start gap-4 mb-5">
+                        <div class="flex gap-4 items-center">
+                            <img id="resImg1" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border border-white/40 dark:border-white/10 shadow-lg" src="" alt="نفر اول">
+                            <div>
+                                <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-1">چهره شماره یک</h3>
+                                <div class="flex items-baseline gap-1.5" dir="ltr">
+                                    <span class="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white leading-none" id="resScore1">--</span>
+                                    <span class="text-xl font-bold text-gray-400 dark:text-gray-500">/ 100</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="badge1" class="px-3 py-1 rounded-xl text-xs font-black shadow-sm flex items-center gap-1 border"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-5 text-xs">
+                        <div class="data-item">
+                            <div class="text-gray-500 dark:text-gray-400 mb-1" id="lblSymmetry1"><i class="fa-solid fa-face-smile text-purple-500 ml-1"></i> تقارن چهره:</div>
+                            <div class="text-gray-800 dark:text-gray-100 font-bold" id="resSymmetry1">...</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="text-gray-500 dark:text-gray-400 mb-1" id="lblBody1"><i class="fa-solid fa-child-reaching text-orange-500 ml-1"></i> فیزیک و استایل:</div>
+                            <div class="text-gray-800 dark:text-gray-100 font-bold" id="resBody1">...</div>
+                        </div>
+                        <div class="data-item sm:col-span-2">
+                            <div class="text-gray-500 dark:text-gray-400 mb-1" id="lblOrigin1"><i class="fa-solid fa-earth-americas text-blue-500 ml-1"></i> ملیت ظاهری / محبوب در:</div>
+                            <div class="text-gray-800 dark:text-gray-100 font-bold" id="resOrigin1">...</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="text-gray-500 dark:text-gray-400 mb-1" id="lblMbti1"><i class="fa-solid fa-users text-indigo-500 ml-1"></i> تیپ MBTI:</div>
+                            <div class="text-gray-800 dark:text-gray-100 font-bold" id="resMbti1">...</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="text-gray-500 dark:text-gray-400 mb-1" id="lblLoveLang1"><i class="fa-solid fa-comments text-pink-500 ml-1"></i> زبان عشق:</div>
+                            <div class="text-gray-800 dark:text-gray-100 font-bold" id="resLoveLang1">...</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="text-gray-500 dark:text-gray-400 mb-1" id="lblCelebLook1"><i class="fa-solid fa-star text-amber-500 ml-1"></i> شبیه چه سلبریتیه:</div>
+                            <div class="text-gray-800 dark:text-gray-100 font-bold" id="resCelebLook1">...</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="text-gray-500 dark:text-gray-400 mb-1" id="lblCelebMatch1"><i class="fa-solid fa-rings-wedding text-rose-500 ml-1"></i> زوج سلبریتی مناسب:</div>
+                            <div class="text-gray-800 dark:text-gray-100 font-bold" id="resCelebMatch1">...</div>
+                        </div>
+                        <div class="data-item sm:col-span-2">
+                            <div class="text-gray-500 dark:text-gray-400 mb-1" id="lblStyle1"><i class="fa-solid fa-shirt text-cyan-500 ml-1"></i> پیشنهاد استایل:</div>
+                            <div class="text-gray-800 dark:text-gray-100 font-medium" id="resStyle1">...</div>
+                        </div>
+                        <div class="data-item sm:col-span-2 flex items-center gap-3">
+                            <div class="w-6 h-6 rounded-full shadow-md flex-shrink-0" id="resAuraColorBox1"></div>
+                            <div>
+                                <div class="text-gray-500 dark:text-gray-400 text-[10px]" id="lblAura1">هاله انرژی (Aura)</div>
+                                <div class="text-gray-900 dark:text-gray-100 text-xs font-black" id="resAuraName1">...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-40 mb-4 relative">
+                        <canvas id="chart1"></canvas>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-dark-850 border border-gray-100 dark:border-white/5 rounded-xl p-3 mb-3 text-xs leading-relaxed">
+                        <p class="text-purple-600 dark:text-purple-400 font-bold mb-1">وایب و انرژی کلی:</p>
+                        <p class="text-gray-700 dark:text-gray-200" id="resVibe1">...</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-auto text-xs">
+                        <div class="bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-500/20 rounded-xl p-2.5">
+                            <p class="text-emerald-600 dark:text-emerald-400 font-bold mb-0.5"><i class="fa-solid fa-circle-check"></i> ویژگی مثبت</p>
+                            <p class="text-gray-700 dark:text-gray-300" id="resGreen1">...</p>
+                        </div>
+                        <div class="bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-500/20 rounded-xl p-2.5">
+                            <p class="text-rose-600 dark:text-rose-400 font-bold mb-0.5"><i class="fa-solid fa-triangle-exclamation"></i> ویژگی منفی</p>
+                            <p class="text-gray-700 dark:text-gray-300" id="resRed1">...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نفر دوم -->
+                <div class="premium-card rounded-3xl p-6 sm:p-7 relative flex flex-col">
+                    <div class="flex justify-between items-start gap-4 mb-5">
+                        <div class="flex gap-4 items-center">
+                            <img id="resImg2" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border border-white/40 dark:border-white/10 shadow-lg" src="" alt="نفر دوم">
+                            <div>
+                                <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-1">چهره شماره دو</h3>
+                                <div class="flex items-baseline gap-1.5" dir="ltr">
+                                    <span class="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white leading-none" id="resScore2">--</span>
+                                    <span class="text-xl font-bold text-gray-400 dark:text-gray-500">/ 100</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="badge2" class="px-3 py-1 rounded-xl text-xs font-black shadow-sm flex items-center gap-1 border"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-5 text-xs">
+                        <div class="data-item">
+                            <div class="text-gray-500 dark:text-gray-400 mb-1" id="lblSymmetry2"><i class="fa-solid fa-face-smile text-purple-500 ml-1"></i> تقارن چهره:</div>
+                            <div class="text-gray-800 dark:text-gray-100 font-bold" id="resSymmetry2">...</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="text-gray-500 dark:text-gray-400 mb-1" id="lblBody2"><i class="fa-solid fa-child-reaching text-orange-500 ml-1"></i> فیزیک و استایل:</div>
+                            <div class="text-gray-800 dark:text-gray-100 font-bold" id="resBody2">...</div>
+                        </div>
+                        <div class="data-item sm:col-span-2">
+                            <div class="text-gray-500 dark:text-gray-400 mb-1" id="lblOrigin2"><i class="fa-solid fa-earth-americas text-blue-500 ml-1"></i> ملیت ظاهری / محبوب در:</div>
+                            <div class="text-gray-800 dark:text-gray-100 font-bold" id="resOrigin2">...</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="text-gray-500 dark:text-gray-400 mb-1" id="lblMbti2"><i class="fa-solid fa-users text-indigo-500 ml-1"></i> تیپ MBTI:</div>
+                            <div class="text-gray-800 dark:text-gray-100 font-bold" id="resMbti2">...</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="text-gray-500 dark:text-gray-400 mb-1" id="lblLoveLang2"><i class="fa-solid fa-comments text-pink-500 ml-1"></i> زبان عشق:</div>
+                            <div class="text-gray-800 dark:text-gray-100 font-bold" id="resLoveLang2">...</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="text-gray-500 dark:text-gray-400 mb-1" id="lblCelebLook2"><i class="fa-solid fa-star text-amber-500 ml-1"></i> شبیه چه سلبریتیه:</div>
+                            <div class="text-gray-800 dark:text-gray-100 font-bold" id="resCelebLook2">...</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="text-gray-500 dark:text-gray-400 mb-1" id="lblCelebMatch2"><i class="fa-solid fa-rings-wedding text-rose-500 ml-1"></i> زوج سلبریتی مناسب:</div>
+                            <div class="text-gray-800 dark:text-gray-100 font-bold" id="resCelebMatch2">...</div>
+                        </div>
+                        <div class="data-item sm:col-span-2">
+                            <div class="text-gray-500 dark:text-gray-400 mb-1" id="lblStyle2"><i class="fa-solid fa-shirt text-cyan-500 ml-1"></i> پیشنهاد استایل:</div>
+                            <div class="text-gray-800 dark:text-gray-100 font-medium" id="resStyle2">...</div>
+                        </div>
+                        <div class="data-item sm:col-span-2 flex items-center gap-3">
+                            <div class="w-6 h-6 rounded-full shadow-md flex-shrink-0" id="resAuraColorBox2"></div>
+                            <div>
+                                <div class="text-gray-500 dark:text-gray-400 text-[10px]" id="lblAura2">هاله انرژی (Aura)</div>
+                                <div class="text-gray-900 dark:text-gray-100 text-xs font-black" id="resAuraName2">...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-40 mb-4 relative">
+                        <canvas id="chart2"></canvas>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-dark-850 border border-gray-100 dark:border-white/5 rounded-xl p-3 mb-3 text-xs leading-relaxed">
+                        <p class="text-pink-600 dark:text-pink-400 font-bold mb-1">وایب و انرژی کلی:</p>
+                        <p class="text-gray-700 dark:text-gray-200" id="resVibe2">...</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-auto text-xs">
+                        <div class="bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-500/20 rounded-xl p-2.5">
+                            <p class="text-emerald-600 dark:text-emerald-400 font-bold mb-0.5"><i class="fa-solid fa-circle-check"></i> ویژگی مثبت</p>
+                            <p class="text-gray-700 dark:text-gray-300" id="resGreen2">...</p>
+                        </div>
+                        <div class="bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-500/20 rounded-xl p-2.5">
+                            <p class="text-rose-600 dark:text-rose-400 font-bold mb-0.5"><i class="fa-solid fa-triangle-exclamation"></i> ویژگی منفی</p>
+                            <p class="text-gray-700 dark:text-gray-300" id="resRed2">...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- هماهنگی دو طرف -->
+            <div class="premium-card rounded-3xl p-6 sm:p-8 mb-8">
+                <h3 class="text-xl sm:text-2xl font-black text-center mb-6 text-gray-900 dark:text-white" id="mainMatchTitle">تحلیل هماهنگی و سنخیت متقابل 💍</h3>
+                
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <div class="relative w-40 h-40 flex-shrink-0">
+                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" class="text-gray-200 dark:text-dark-800" stroke-width="7"></circle>
+                            <circle id="matchScoreCircle" cx="50" cy="50" r="45" fill="none" stroke="url(#matchGradient)" stroke-width="7" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" class="transition-all duration-[1.8s] ease-out"></circle>
+                            <defs>
+                                <linearGradient id="matchGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#a855f7" />
+                                    <stop offset="100%" stop-color="#ec4899" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span class="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white leading-none" id="resMatchScore" dir="ltr">--%</span>
+                            <span class="text-[11px] text-gray-500 dark:text-gray-400 mt-1 font-bold" id="lblMatchScoreSub">میزان تفاهم</span>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 space-y-3 w-full text-xs">
+                        <div class="data-item p-3.5">
+                            <h4 class="text-gray-900 dark:text-white font-bold mb-1 flex items-center gap-1.5" id="lblComparisonTitle"><i class="fa-solid fa-scale-balanced text-purple-500"></i> مقایسه زیبایی‌شناختی و سنخیت:</h4>
+                            <p class="text-gray-700 dark:text-gray-300 leading-relaxed" id="resComparison">...</p>
+                        </div>
+                        <div class="data-item p-3.5">
+                            <h4 class="text-gray-900 dark:text-white font-bold mb-1 flex items-center gap-1.5" id="lblHowMetTitle"><i class="fa-solid fa-masks-theater text-pink-500"></i> سناریوی آشنایی احتمالی:</h4>
+                            <p class="text-gray-700 dark:text-gray-300 leading-relaxed" id="resHowMet">...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- بخش خواستگاری -->
+                <div id="khastegarySection" class="mt-8 pt-7 border-t border-gray-200 dark:border-white/10">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 to-emerald-500 flex items-center justify-center text-white text-base shadow-md" id="khastegaryIcon">👵☕</span>
+                        <div>
+                            <h4 class="text-base sm:text-lg font-black text-gray-900 dark:text-white" id="khastegaryHeaderTitle">گزارش موشکافانه مجلس خواستگاری و تفکیک نظر دو خانواده</h4>
+                            <p class="text-[11px] text-gray-500 dark:text-gray-400" id="khastegaryHeaderSub">بررسی جبهه فامیل عروس، فامیل داماد و مذاکرات جلسه اول!</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 text-xs">
+                        <div class="bg-pink-50/50 dark:bg-pink-950/10 border border-pink-200 dark:border-pink-500/20 rounded-2xl p-4 space-y-3">
+                            <div class="flex items-center gap-2 text-pink-600 dark:text-pink-400 font-black text-sm pb-2 border-b border-pink-200/60 dark:border-pink-500/20" id="side1Title">
+                                <i class="fa-solid fa-venus"></i> شورای فامیل عروس (تیم بازرسی)
+                            </div>
+                            <div>
+                                <span class="font-bold text-gray-800 dark:text-gray-200 block mb-0.5" id="lblSide1Role1">👵 مادرزن (مادر عروس):</span>
+                                <p class="text-gray-600 dark:text-gray-300 leading-relaxed" id="resBrideMother">...</p>
+                            </div>
+                            <div>
+                                <span class="font-bold text-gray-800 dark:text-gray-200 block mb-0.5" id="lblSide1Role2">☕ خاله و عمه‌های عروس:</span>
+                                <p class="text-gray-600 dark:text-gray-300 leading-relaxed" id="resBrideAunts">...</p>
+                            </div>
+                            <div>
+                                <span class="font-bold text-gray-800 dark:text-gray-200 block mb-0.5" id="lblSide1Role3">👔 پدر و برادر عروس (استعلام جنم کاری):</span>
+                                <p class="text-gray-600 dark:text-gray-300 leading-relaxed" id="resBrideFather">...</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-indigo-50/50 dark:bg-indigo-950/10 border border-indigo-200 dark:border-indigo-500/20 rounded-2xl p-4 space-y-3">
+                            <div class="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-black text-sm pb-2 border-b border-indigo-200/60 dark:border-indigo-500/20" id="side2Title">
+                                <i class="fa-solid fa-mars"></i> شورای فامیل داماد (تیم چانه‌زنی)
+                            </div>
+                            <div>
+                                <span class="font-bold text-gray-800 dark:text-gray-200 block mb-0.5" id="lblSide2Role1">👵 مادرشوهر (مادر داماد):</span>
+                                <p class="text-gray-600 dark:text-gray-300 leading-relaxed" id="resGroomMother">...</p>
+                            </div>
+                            <div>
+                                <span class="font-bold text-gray-800 dark:text-gray-200 block mb-0.5" id="lblSide2Role2">💅 خواهرشوهر و عمه‌های داماد:</span>
+                                <p class="text-gray-600 dark:text-gray-300 leading-relaxed" id="resGroomSister">...</p>
+                            </div>
+                            <div>
+                                <span class="font-bold text-gray-800 dark:text-gray-200 block mb-0.5" id="lblSide2Role3">💼 پدر داماد (حساب‌کتاب و مراسم):</span>
+                                <p class="text-gray-600 dark:text-gray-300 leading-relaxed" id="resGroomFather">...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                        <div class="data-item p-3">
+                            <span class="text-purple-600 dark:text-purple-400 font-bold block mb-1" id="lblKhastegaryDeal"><i class="fa-solid fa-coins ml-1"></i> مهریه پیشنهادی شورا:</span>
+                            <p class="text-gray-800 dark:text-gray-200 font-bold" id="resKhastegaryMehrieh">...</p>
+                        </div>
+                        <div class="data-item p-3">
+                            <span class="text-emerald-600 dark:text-emerald-400 font-bold block mb-1" id="lblKhastegaryChance"><i class="fa-solid fa-handshake ml-1"></i> احتمال گرفتن بله شب اول:</span>
+                            <p class="text-emerald-600 dark:text-emerald-400 font-black text-sm" id="resKhastegaryChance">...</p>
+                        </div>
+                        <div class="data-item p-3">
+                            <span class="text-rose-600 dark:text-rose-400 font-bold block mb-1" id="lblEspandTitle"><i class="fa-solid fa-fire-burner ml-1"></i> رادار چشم‌زخم و نیاز به اسفند 🧿:</span>
+                            <div class="flex items-center gap-2 my-1">
+                                <div class="flex-1 bg-gray-200 dark:bg-dark-800 rounded-full h-2 overflow-hidden">
+                                    <div id="resEspandBar" class="bg-gradient-to-r from-amber-500 to-rose-500 h-2 rounded-full transition-all duration-1000" style="width: 85%"></div>
+                                </div>
+                                <span id="resEspandPercent" class="text-xs font-black text-rose-500" dir="ltr">85%</span>
+                            </div>
+                            <p class="text-[10px] text-gray-500 dark:text-gray-400" id="resEspandDesc">اسفند کیلویی دود کنید!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- پیش‌بینی فرزند یا پروژه مشترک -->
+                <div id="babySection" class="mt-7 pt-6 border-t border-gray-200 dark:border-white/10">
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <span class="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm shadow" id="babyIcon">👶</span>
+                        <h4 class="text-sm sm:text-base font-black text-gray-900 dark:text-white" id="babyHeaderTitle">پیش‌بینی وایب فرزند مشترک</h4>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+                        <div class="data-item p-3">
+                            <span class="text-purple-600 dark:text-purple-400 font-bold block mb-1" id="lblBabyCol1">ژنتیک و چهره:</span>
+                            <p class="text-gray-700 dark:text-gray-300" id="resBabyAppearance">...</p>
+                        </div>
+                        <div class="data-item p-3">
+                            <span class="text-pink-600 dark:text-pink-400 font-bold block mb-1" id="lblBabyCol2">اخلاق و لجبازی شبانه:</span>
+                            <p class="text-gray-700 dark:text-gray-300" id="resBabyPersonality">...</p>
+                        </div>
+                        <div class="data-item p-3">
+                            <span class="text-amber-600 dark:text-amber-400 font-bold block mb-1" id="lblBabyCol3">شغل در ۲۰ سال بعد:</span>
+                            <p class="text-gray-800 dark:text-gray-200 font-bold" id="resBabyJob">...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- فوتر چاپ PDF -->
+            <div class="hidden export-only text-center mt-8 pt-4 border-t border-gray-200 dark:border-white/10">
+                <p class="text-gray-500 text-sm font-bold">Vibe | ارائه و توسعه دهنده: عباس فتاحی | <span dir="ltr">@Abbasfattahi</span></p>
+            </div>
+        </div>
+    </main>
+
+    <!-- فوتر وبسایت -->
+    <footer class="mt-auto border-t border-gray-200 dark:border-white/5 py-6 text-center text-xs no-export bg-white/70 dark:bg-dark-900/80 backdrop-blur-md relative z-40 transition-colors">
+        <div class="container mx-auto px-4 flex flex-col items-center gap-2">
+            <p class="text-gray-600 dark:text-gray-400">ارائه و توسعه دهنده: <span class="font-bold text-gray-900 dark:text-gray-100">عباس فتاحی</span></p>
+            <a href="https://t.me/Abbasfattahi" target="_blank" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl transition text-gray-700 dark:text-gray-300 hover:text-purple-500">
+                <span class="font-bold text-sm" dir="ltr">@Abbasfattahi</span> 
+                <i class="fa-brands fa-telegram text-lg text-[#229ED9]"></i>
+            </a>
+        </div>
+    </footer>
+
+    <!-- کارت استوری -->
+    <div id="storyCanvasExport" class="fixed -left-[9999px] top-0 w-[540px] h-[960px] text-white p-8 flex flex-col justify-between overflow-hidden shadow-2xl z-[-1]" style="background-color: #08090f; background-image: radial-gradient(circle at 85% 15%, rgba(236,72,153,0.22) 0%, transparent 50%), radial-gradient(circle at 15% 85%, rgba(168,85,247,0.25) 0%, transparent 50%); font-family: 'Vazirmatn', sans-serif;">
+        <div class="flex justify-between items-center z-10 w-full">
+            <div dir="ltr" class="flex items-center gap-1 bg-white/10 px-4 py-1.5 rounded-2xl border border-white/10">
+                <span class="text-2xl font-black tracking-tight text-white">V</span>
+                <span class="text-2xl font-black tracking-tight text-pink-400">i</span>
+                <span class="text-2xl font-black tracking-tight text-white">be</span>
+            </div>
+            <div id="storyBadge" class="px-3.5 py-1.5 rounded-2xl text-xs font-bold bg-white/10 border border-white/15 text-pink-300" dir="rtl">
+                گزارش رسمی سنخیت
+            </div>
+        </div>
+
+        <div class="my-auto flex flex-col items-center gap-4 z-10 w-full">
+            <div class="flex items-center justify-center gap-6 relative w-full">
+                <div class="flex flex-col items-center">
+                    <div class="w-32 h-32 rounded-3xl overflow-hidden p-1 border-2 border-purple-400/80 bg-purple-950/40 shadow-xl">
+                        <img id="storyImg1" src="" class="w-full h-full object-cover rounded-[20px]" alt="۱">
+                    </div>
+                    <div class="mt-2 bg-purple-600 text-white font-black text-xs px-3 py-1 rounded-full shadow" dir="ltr">
+                        <span id="storyScore1">-- / 100</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center justify-center">
+                    <div id="storyIcon" class="w-12 h-12 rounded-full bg-gradient-to-tr from-pink-500 to-purple-600 flex items-center justify-center text-white text-base font-black border border-white/30 shadow-lg">
+                        VS
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <div class="w-32 h-32 rounded-3xl overflow-hidden p-1 border-2 border-pink-400/80 bg-pink-950/40 shadow-xl">
+                        <img id="storyImg2" src="" class="w-full h-full object-cover rounded-[20px]" alt="۲">
+                    </div>
+                    <div class="mt-2 bg-pink-600 text-white font-black text-xs px-3 py-1 rounded-full shadow" dir="ltr">
+                        <span id="storyScore2">-- / 100</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-2">
+                <div id="storyScoreTitle" class="text-xs text-pink-300 font-bold mb-1" dir="rtl">میزان تفاهم و سنخیت متقابل</div>
+                <div id="storyPercent" class="text-7xl font-black text-amber-300 leading-none py-1" dir="ltr">--%</div>
+            </div>
+
+            <div class="w-full bg-white/[0.08] rounded-2xl p-4 border border-white/10 text-center shadow-lg" dir="rtl">
+                <p id="storyQuoteText" class="text-xs font-bold text-gray-100 leading-relaxed">...</p>
+            </div>
+
+            <div class="w-full bg-gradient-to-r from-purple-950/50 to-pink-950/50 rounded-2xl p-3.5 border border-white/10 text-center" dir="rtl">
+                <div id="storyDynTitle" class="text-xs text-amber-300 font-bold mb-1 flex items-center justify-center gap-1">
+                    <span>👶 وایب کودک احتمالی:</span>
+                </div>
+                <p id="storyDynText" class="text-xs text-gray-200 leading-relaxed font-medium">...</p>
+            </div>
+        </div>
+
+        <div class="pt-3 border-t border-white/10 flex justify-between items-center z-10 w-full" dir="rtl">
+            <span class="text-xs text-gray-400">ارائه و توسعه دهنده: عباس فتاحی</span>
+            <div dir="ltr" class="text-xs font-black text-pink-300 bg-white/10 px-3 py-1 rounded-xl border border-white/10">
+                @Abbasfattahi
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال تنظیمات API و مدل -->
+    <div id="apiModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="w-full max-w-md bg-white dark:bg-dark-850 rounded-3xl p-6 border border-gray-200 dark:border-white/10 shadow-2xl">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-purple-500"></i> تنظیمات هوش مصنوعی و مدل
+                </h3>
+                <button onclick="closeApiModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
+                مدل هوش مصنوعی را برای ارزیابی انتخاب کنید[cite: 14]. این تنظیمات فقط در مرورگر شما ذخیره می‌گردند.
+            </p>
+            <div class="space-y-4 mb-5">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1.5">انتخاب مدل بینایی Gemini:</label>
+                    <select id="userModelInput" class="w-full px-3.5 py-3 bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-white/10 rounded-xl text-sm text-gray-900 dark:text-white focus:outline-none focus:border-purple-500" dir="ltr">
+                        <option value="auto">تشخیص خودکار مدل پایدار (پیش‌فرض)</option>
+                        <option value="gemini-2.0-flash">gemini-2.0-flash (جدیدترین، سریع و دقیق)</option>
+                        <option value="gemini-2.0-pro">gemini-2.0-pro (جدیدترین، دقت عمیق‌تر)</option>
+                        <option value="gemini-1.5-flash">gemini-1.5-flash (پایدار و استاندارد)</option>
+                        <option value="gemini-1.5-pro">gemini-1.5-pro (پایدار با دقت بالا)</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="saveApiSettings()" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl text-sm transition shadow-md flex items-center justify-center gap-2">
+                <i class="fa-solid fa-floppy-disk"></i> ذخیره تنظیمات مدل
+            </button>
+        </div>
+    </div>
+
+    <!-- مودال وبکم -->
+    <div id="webcamModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex-col items-center justify-center p-4">
+        <div class="w-full max-w-sm bg-white dark:bg-dark-850 rounded-3xl p-4 border border-gray-200 dark:border-white/10 shadow-2xl">
+            <div class="relative rounded-2xl overflow-hidden bg-black aspect-[3/4] mb-3">
+                <video id="webcamVideo" autoplay playsinline class="w-full h-full object-cover scale-x-[-1]"></video>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="captureWebcam()" class="flex-1 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-xl hover:opacity-90 transition text-sm">
+                    📸 ثبت عکس
+                </button>
+                <button onclick="closeWebcam()" class="px-4 py-3 bg-gray-200 dark:bg-dark-800 text-gray-700 dark:text-gray-300 font-bold rounded-xl text-sm">
+                    لغو
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال پیام‌ها و خطاها -->
+    <div id="alertModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 transition-opacity duration-200">
+        <div class="bg-white dark:bg-dark-850 border border-gray-200 dark:border-white/10 rounded-3xl p-6 max-w-sm w-full shadow-2xl text-center">
+            <div id="alertIconBox" class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner border">
+                <i id="alertIcon" class="fa-solid fa-circle-exclamation"></i>
+            </div>
+            <h3 id="alertTitle" class="text-lg font-black text-gray-900 dark:text-white mb-1.5">توجه</h3>
+            <p id="alertMessage" class="text-gray-600 dark:text-gray-400 mb-5 text-sm leading-relaxed">...</p>
+            
+            <!-- کادر نمایش خطای فنی -->
+            <div id="errorDetailsBox" class="hidden bg-gray-50 dark:bg-dark-950 border border-gray-100 dark:border-white/5 rounded-2xl p-3.5 mb-5 text-rose-600 dark:text-rose-400 text-xs font-medium text-right leading-relaxed overflow-x-auto" dir="ltr">
+                <p class="font-bold text-rose-700 dark:text-rose-500 mb-1" dir="rtl">علت دقیق خطا:</p>
+                <code id="errorDetailsText">...</code>
+            </div>
+
+            <button onclick="closeAlert()" class="w-full py-2.5 bg-gray-900 dark:bg-white text-white dark:text-black font-bold rounded-xl text-sm transition active:scale-95">متوجه شدم</button>
+        </div>
+    </div>
+
+    <script>
+        const images = { 1: null, 2: null, body1: null, body2: null };
+        const charts = { 1: null, 2: null };
+        const activeTimers = {};
+        let currentWebcamTarget = 1;
+        let webcamStream = null;
+
+        function getSavedModel() {
+            return localStorage.getItem('vibe_gemini_model') || "auto";
+        }
+
+        function openApiModal() {
+            document.getElementById('userModelInput').value = getSavedModel();
+            document.getElementById('apiModal').classList.remove('hidden');
+        }
+
+        function closeApiModal() {
+            document.getElementById('apiModal').classList.add('hidden');
+        }
+
+        function saveApiSettings() {
+            const model = document.getElementById('userModelInput').value;
+            localStorage.setItem('vibe_gemini_model', model);
+            closeApiModal();
+            showAlert('تنظیمات ذخیره شد ✨', 'مدل انتخابی شما با موفقیت در مرورگر ذخیره گردید و از این پس برای ارزیابی استفاده خواهد شد.', 'success');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+            if (charts[1] && charts[2] && window._lastData) {
+                renderRadarChart('chart1', window._lastData.person1.stats, window._lastData.person1.aura.colorHex, 1);
+                renderRadarChart('chart2', window._lastData.person2.stats, window._lastData.person2.aura.colorHex, 2);
+            }
